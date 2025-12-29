@@ -15,8 +15,12 @@ from tasks import categorize_maintenance_request
 # .env 파일 로드
 load_dotenv()
 
-# OpenAI 클라이언트 초기화
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# Groq 클라이언트 초기화 (OpenAI 대신 사용)
+from groq import Groq
+groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+
+# OpenAI 클라이언트 (백업용, 현재 비활성화)
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # S3 클라이언트 초기화
 s3_client = boto3.client(
@@ -165,9 +169,46 @@ def categorize_with_keywords(description: str) -> dict:
 
 # AI 카테고리화 함수 (동기 - 빠른 응답용)
 async def categorize_with_ai_sync(description: str) -> dict:
-    # OpenAI API 비활성화 - 키워드 기반 분류만 사용
-    print(f"[INFO] Using keyword-based categorization (OpenAI disabled)")
-    return categorize_with_keywords(description)
+    # Groq API 사용 (무료, 빠름)
+    try:
+        print(f"[DEBUG] Starting Groq AI categorization for: {description[:50]}...")
+
+        response = groq_client.chat.completions.create(
+            model="llama-3.3-70b-versatile",  # 무료 모델
+            messages=[
+                {
+                    "role": "system",
+                    "content": """You are a building maintenance expert. Categorize the maintenance request into one of these categories:
+                    - electrical: 전기 관련 문제
+                    - plumbing: 배관, 수도 관련 문제
+                    - hvac: 난방, 환기, 에어컨 관련 문제
+                    - structural: 건물 구조, 벽, 바닥 관련 문제
+                    - other: 기타
+
+                    Also assess the priority as:
+                    - high: 빠른 대응 필요
+                    - medium: 일반적인 유지보수
+                    - low: 긴급하지 않음
+
+                    Respond in JSON format: {"category": "...", "priority": "..."}"""
+                },
+                {
+                    "role": "user",
+                    "content": f"Maintenance request: {description}"
+                }
+            ],
+            temperature=0.3,
+            max_tokens=100
+        )
+
+        import json
+        result = json.loads(response.choices[0].message.content)
+        print(f"[DEBUG] Groq AI categorization successful: {result}")
+        return result
+    except Exception as e:
+        print(f"[ERROR] Groq AI categorization error: {type(e).__name__}: {str(e)}")
+        print("[INFO] Falling back to keyword-based categorization")
+        return categorize_with_keywords(description)
 
 # Lifespan 이벤트 (Deprecation 경고 해결)
 from contextlib import asynccontextmanager
