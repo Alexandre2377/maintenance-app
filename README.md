@@ -378,10 +378,19 @@ MIT License
 
 ## 📞 연락처
 
+**프로젝트 관련 문의 및 피드백을 환영합니다!**
+
 - **GitHub**: [@doublesilver](https://github.com/doublesilver)
-- **Email**: (포트폴리오 공개 시 추가)
-- **LinkedIn**: (포트폴리오 공개 시 추가)
-- **Portfolio**: (포트폴리오 공개 시 추가)
+- **프로젝트 Repository**: [maintenance-app](https://github.com/doublesilver/maintenance-app)
+- **Issues**: [GitHub Issues](https://github.com/doublesilver/maintenance-app/issues)
+- **라이브 데모**: [https://maintenance-app-azure.vercel.app](https://maintenance-app-azure.vercel.app)
+
+### 채용 문의
+
+이 프로젝트는 **"더빌딩(The BLDGS) 바이브 코더"** 포지션 지원을 위해 제작되었습니다.
+
+- 포트폴리오 검토 및 기술 문의는 GitHub Issues로 부탁드립니다
+- 프로젝트 개선 제안 및 버그 리포트 환영합니다
 
 ---
 

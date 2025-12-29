@@ -210,5 +210,128 @@ def test_multiple_requests():
     assert response.status_code == 200
     assert len(response.json()) >= 3
 
+def test_user_registration():
+    """사용자 회원가입 테스트"""
+    user_data = {
+        "email": "test@example.com",
+        "password": "testpassword123",
+        "full_name": "Test User"
+    }
+
+    response = client.post("/api/auth/register", json=user_data)
+    assert response.status_code == 200
+
+    data = response.json()
+    assert data["email"] == user_data["email"]
+    assert data["full_name"] == user_data["full_name"]
+    assert data["role"] == "user"
+    assert "password" not in data  # 비밀번호는 응답에 포함되지 않아야 함
+
+def test_duplicate_email_registration():
+    """중복 이메일 회원가입 테스트"""
+    user_data = {
+        "email": "duplicate@example.com",
+        "password": "password123",
+        "full_name": "User One"
+    }
+
+    # 첫 번째 회원가입
+    response1 = client.post("/api/auth/register", json=user_data)
+    assert response1.status_code == 200
+
+    # 중복 회원가입 시도
+    response2 = client.post("/api/auth/register", json=user_data)
+    assert response2.status_code == 400
+    assert "already registered" in response2.json()["detail"].lower()
+
+def test_user_login():
+    """사용자 로그인 테스트"""
+    # 먼저 사용자 등록
+    user_data = {
+        "email": "login@example.com",
+        "password": "loginpassword123",
+        "full_name": "Login User"
+    }
+    client.post("/api/auth/register", json=user_data)
+
+    # 로그인
+    login_data = {
+        "username": "login@example.com",  # OAuth2PasswordRequestForm uses 'username'
+        "password": "loginpassword123"
+    }
+    response = client.post("/api/auth/login", data=login_data)
+    assert response.status_code == 200
+
+    data = response.json()
+    assert "access_token" in data
+    assert data["token_type"] == "bearer"
+
+def test_login_wrong_password():
+    """잘못된 비밀번호로 로그인 시도 테스트"""
+    # 사용자 등록
+    user_data = {
+        "email": "wrongpass@example.com",
+        "password": "correctpassword",
+        "full_name": "Test User"
+    }
+    client.post("/api/auth/register", json=user_data)
+
+    # 잘못된 비밀번호로 로그인
+    login_data = {
+        "username": "wrongpass@example.com",
+        "password": "wrongpassword"
+    }
+    response = client.post("/api/auth/login", data=login_data)
+    assert response.status_code == 401
+
+def test_login_nonexistent_user():
+    """존재하지 않는 사용자 로그인 테스트"""
+    login_data = {
+        "username": "nonexistent@example.com",
+        "password": "anypassword"
+    }
+    response = client.post("/api/auth/login", data=login_data)
+    assert response.status_code == 401
+
+def test_get_current_user():
+    """현재 로그인한 사용자 정보 조회 테스트"""
+    # 사용자 등록 및 로그인
+    user_data = {
+        "email": "currentuser@example.com",
+        "password": "password123",
+        "full_name": "Current User"
+    }
+    client.post("/api/auth/register", json=user_data)
+
+    login_response = client.post("/api/auth/login", data={
+        "username": "currentuser@example.com",
+        "password": "password123"
+    })
+    token = login_response.json()["access_token"]
+
+    # 인증된 요청
+    response = client.get(
+        "/api/auth/me",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+    assert response.status_code == 200
+
+    data = response.json()
+    assert data["email"] == "currentuser@example.com"
+    assert data["full_name"] == "Current User"
+
+def test_get_current_user_without_token():
+    """토큰 없이 사용자 정보 조회 시도 테스트"""
+    response = client.get("/api/auth/me")
+    assert response.status_code == 401
+
+def test_get_current_user_invalid_token():
+    """잘못된 토큰으로 사용자 정보 조회 테스트"""
+    response = client.get(
+        "/api/auth/me",
+        headers={"Authorization": "Bearer invalid_token_here"}
+    )
+    assert response.status_code == 401
+
 if __name__ == "__main__":
-    pytest.main([__file__, "-v"])
+    pytest.main([__file__, "-v", "--cov=main", "--cov-report=html"])
