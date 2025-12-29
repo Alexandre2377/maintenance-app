@@ -1,14 +1,34 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 export default function MobileNav() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [userEmail, setUserEmail] = useState('')
   const pathname = usePathname()
+  const router = useRouter()
 
   const isActive = (path: string) => pathname === path
+
+  useEffect(() => {
+    // 로그인 상태 확인
+    const token = localStorage.getItem('access_token')
+    const email = localStorage.getItem('user_email')
+    setIsLoggedIn(!!token)
+    setUserEmail(email || '')
+  }, [pathname])
+
+  const handleLogout = () => {
+    localStorage.removeItem('access_token')
+    localStorage.removeItem('user_email')
+    setIsLoggedIn(false)
+    setUserEmail('')
+    setIsOpen(false)
+    router.push('/')
+  }
 
   return (
     <>
@@ -65,12 +85,42 @@ export default function MobileNav() {
                 onClick={() => setIsOpen(false)}
                 className={`block px-4 py-3 rounded-lg font-medium transition-colors ${
                   isActive('/dashboard')
-                    ? 'bg-primary-600 text-white'
-                    : 'bg-primary-600 text-white hover:bg-primary-700'
+                    ? 'bg-primary-50 text-primary-700'
+                    : 'text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 대시보드
               </Link>
+
+              {/* 인증 버튼 (모바일) */}
+              {isLoggedIn ? (
+                <div className="pt-4 border-t border-slate-200 space-y-2">
+                  <div className="px-4 py-2 text-sm text-slate-600">{userEmail}</div>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full px-4 py-3 bg-slate-200 text-slate-700 rounded-lg hover:bg-slate-300 font-medium transition-colors text-left"
+                  >
+                    로그아웃
+                  </button>
+                </div>
+              ) : (
+                <div className="pt-4 border-t border-slate-200 space-y-2">
+                  <Link
+                    href="/login"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-4 py-3 text-slate-600 hover:bg-slate-100 rounded-lg font-medium transition-colors"
+                  >
+                    로그인
+                  </Link>
+                  <Link
+                    href="/register"
+                    onClick={() => setIsOpen(false)}
+                    className="block px-4 py-3 bg-primary-600 text-white hover:bg-primary-700 rounded-lg font-medium transition-colors"
+                  >
+                    회원가입
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </>
