@@ -165,50 +165,9 @@ def categorize_with_keywords(description: str) -> dict:
 
 # AI 카테고리화 함수 (동기 - 빠른 응답용)
 async def categorize_with_ai_sync(description: str) -> dict:
-    try:
-        print(f"[DEBUG] Starting AI categorization for: {description[:50]}...")
-        print(f"[DEBUG] OpenAI API Key exists: {bool(os.getenv('OPENAI_API_KEY'))}")
-
-        response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {
-                    "role": "system",
-                    "content": """You are a building maintenance expert. Categorize the maintenance request into one of these categories:
-                    - electrical: 전기 관련 문제
-                    - plumbing: 배관, 수도 관련 문제
-                    - hvac: 난방, 환기, 에어컨 관련 문제
-                    - structural: 건물 구조, 벽, 바닥 관련 문제
-                    - other: 기타
-
-                    Also assess the priority as:
-                    - urgent: 즉각적인 위험이나 서비스 중단
-                    - high: 빠른 대응 필요
-                    - medium: 일반적인 유지보수
-                    - low: 긴급하지 않음
-
-                    Respond in JSON format: {"category": "...", "priority": "..."}"""
-                },
-                {
-                    "role": "user",
-                    "content": f"Maintenance request: {description}"
-                }
-            ],
-            temperature=0.3,
-            max_tokens=100
-        )
-
-        import json
-        result = json.loads(response.choices[0].message.content)
-        print(f"[DEBUG] AI categorization successful: {result}")
-        return result
-    except Exception as e:
-        print(f"[ERROR] AI categorization error: {type(e).__name__}: {str(e)}")
-        print("[INFO] Falling back to keyword-based categorization")
-        import traceback
-        traceback.print_exc()
-        # OpenAI API 실패 시 키워드 기반 분류로 대체
-        return categorize_with_keywords(description)
+    # OpenAI API 비활성화 - 키워드 기반 분류만 사용
+    print(f"[INFO] Using keyword-based categorization (OpenAI disabled)")
+    return categorize_with_keywords(description)
 
 # Lifespan 이벤트 (Deprecation 경고 해결)
 from contextlib import asynccontextmanager
