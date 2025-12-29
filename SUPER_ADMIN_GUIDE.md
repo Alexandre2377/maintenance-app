@@ -39,9 +39,9 @@ https://your-vercel-url.com/login
 
 ---
 
-## 🔒 비밀번호 변경 (프로덕션 필수!)
+## 🔒 계정 정보 변경 (프로덕션 필수!)
 
-### Railway에서 비밀번호 변경
+### Railway에서 이메일/비밀번호 변경
 
 1. **Railway 대시보드** 접속: https://railway.app
 2. **프로젝트** 선택: `focused-celebration`
@@ -50,13 +50,25 @@ https://your-vercel-url.com/login
 5. **New Variable** 추가:
 
 ```
+변수명: SUPER_ADMIN_EMAIL
+값: your-admin@yourdomain.com
+
 변수명: SUPER_ADMIN_PASSWORD
 값: your-very-secure-password-123!@#
 ```
 
 6. **Deploy** (자동 재배포)
 
-재배포 완료 후 새 비밀번호로 로그인 가능합니다.
+재배포 완료 후 새 이메일과 비밀번호로 로그인 가능합니다.
+
+### 환경변수 우선순위
+
+- ✅ 환경변수가 설정되면 해당 값 사용
+- ✅ 환경변수가 없으면 기본값 사용:
+  - Email: `admin@system.local`
+  - Password: `qwer1234`
+
+**⚠️ 프로덕션에서는 반드시 환경변수 설정 필수!**
 
 ---
 

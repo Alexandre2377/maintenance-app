@@ -425,8 +425,28 @@ maintenance-app/
 
 자세한 보안 설정 및 Railway 대시보드 사용법은 다음 문서를 참고하세요:
 - **[SECURITY_SETUP.md](SECURITY_SETUP.md)** - 보안 설정 및 Railway 사용 가이드
-- **[ADMIN_SETUP.md](ADMIN_SETUP.md)** - 관리자 계정 설정
+- **[SUPER_ADMIN_GUIDE.md](SUPER_ADMIN_GUIDE.md)** - 최고 관리자 계정 설정 ⚠️
+- **[ADMIN_SETUP.md](ADMIN_SETUP.md)** - 일반 관리자 계정 설정
 - **[SQLITE_VSCODE_GUIDE.md](SQLITE_VSCODE_GUIDE.md)** - 데이터베이스 관리
+
+### 환경변수 설정 (Railway)
+
+프로덕션 배포 시 설정 권장:
+
+```bash
+# 보안 키 (필수)
+SECRET_KEY=your-random-secret-key-here
+
+# 최고 관리자 계정 (권장)
+SUPER_ADMIN_EMAIL=your-admin@yourdomain.com
+SUPER_ADMIN_PASSWORD=your-secure-password
+
+# Groq API (AI 분류용)
+GROQ_API_KEY=your-groq-api-key
+
+# Redis (선택, 비동기 처리용)
+REDIS_URL=${{ Redis.REDIS_URL }}
+```
 
 ---
 

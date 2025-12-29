@@ -17,8 +17,8 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def init_super_admin():
     """최고 관리자 계정 생성 또는 업데이트"""
 
-    # 환경변수에서 비밀번호 읽기 (Railway에서 설정)
-    SUPER_ADMIN_EMAIL = "admin@system.local"  # 이메일 형식으로 변경
+    # 환경변수에서 이메일과 비밀번호 읽기 (Railway에서 설정)
+    SUPER_ADMIN_EMAIL = os.getenv("SUPER_ADMIN_EMAIL", "admin@system.local")
     SUPER_ADMIN_PASSWORD = os.getenv("SUPER_ADMIN_PASSWORD", "qwer1234")
     SUPER_ADMIN_NAME = "Super Administrator"
 
@@ -63,9 +63,9 @@ def init_super_admin():
     print(f"  Password: {'*' * len(SUPER_ADMIN_PASSWORD)} (from env or default)")
     print(f"  Role: super_admin")
     print("="*60)
-    print("\nIMPORTANT: Change password in Railway environment variables:")
-    print("  Variable: SUPER_ADMIN_PASSWORD")
-    print("  Value: your-secure-password-here")
+    print("\nConfigure in Railway environment variables:")
+    print("  SUPER_ADMIN_EMAIL=your-admin@example.com")
+    print("  SUPER_ADMIN_PASSWORD=your-secure-password-here")
     print("="*60)
 
 if __name__ == "__main__":
