@@ -684,8 +684,63 @@ async def get_me(current_user: User = Depends(get_current_user)):
     """현재 로그인한 사용자 정보"""
     return current_user
 
-# 임시 관리자 승격 API는 보안상의 이유로 제거되었습니다.
-# Railway CLI를 사용하세요: railway run python promote_admin.py <email>
+# 관리자 전용 사용자 관리 API
+@app.get("/api/admin/users", response_model=List[User])
+async def get_all_users(current_user: User = Depends(get_current_active_admin)):
+    """관리자 전용: 모든 사용자 목록 조회"""
+    with get_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, email, full_name, role, created_at FROM users ORDER BY created_at DESC")
+        users = cursor.fetchall()
+
+    return [
+        User(
+            id=user["id"],
+            email=user["email"],
+            full_name=user["full_name"],
+            role=user["role"]
+        )
+        for user in users
+    ]
+
+@app.patch("/api/admin/users/{user_id}/role")
+async def update_user_role(
+    user_id: int,
+    new_role: str,
+    current_user: User = Depends(get_current_active_admin)
+):
+    """
+    관리자 전용: 사용자 역할 변경
+
+    new_role: "user" 또는 "admin"
+    """
+    if new_role not in ["user", "admin"]:
+        raise HTTPException(status_code=400, detail="Role must be 'user' or 'admin'")
+
+    # 자기 자신의 역할은 변경할 수 없음
+    if user_id == current_user.id:
+        raise HTTPException(status_code=403, detail="Cannot modify your own role")
+
+    with get_db() as conn:
+        cursor = conn.cursor()
+
+        # 사용자 존재 확인
+        cursor.execute("SELECT * FROM users WHERE id = ?", (user_id,))
+        target_user = cursor.fetchone()
+
+        if not target_user:
+            raise HTTPException(status_code=404, detail="User not found")
+
+        # 역할 업데이트
+        cursor.execute("UPDATE users SET role = ? WHERE id = ?", (new_role, user_id))
+        conn.commit()
+
+    return {
+        "message": f"User role updated successfully",
+        "user_id": user_id,
+        "previous_role": target_user["role"],
+        "new_role": new_role
+    }
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
