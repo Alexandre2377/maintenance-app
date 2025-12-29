@@ -143,6 +143,9 @@ manager = ConnectionManager()
 # AI 카테고리화 함수 (동기 - 빠른 응답용)
 async def categorize_with_ai_sync(description: str) -> dict:
     try:
+        print(f"[DEBUG] Starting AI categorization for: {description[:50]}...")
+        print(f"[DEBUG] OpenAI API Key exists: {bool(os.getenv('OPENAI_API_KEY'))}")
+
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -174,9 +177,12 @@ async def categorize_with_ai_sync(description: str) -> dict:
 
         import json
         result = json.loads(response.choices[0].message.content)
+        print(f"[DEBUG] AI categorization successful: {result}")
         return result
     except Exception as e:
-        print(f"AI categorization error: {e}")
+        print(f"[ERROR] AI categorization error: {type(e).__name__}: {str(e)}")
+        import traceback
+        traceback.print_exc()
         return {"category": "other", "priority": "medium"}
 
 # Lifespan 이벤트 (Deprecation 경고 해결)
