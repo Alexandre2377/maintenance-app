@@ -145,26 +145,37 @@ def categorize_with_keywords(description: str) -> dict:
     """간단한 키워드 기반 분류 (OpenAI API quota 초과 시 대체)"""
     desc_lower = description.lower()
 
+    print(f"[KEYWORD] Input description: {description[:100]}")
+    print(f"[KEYWORD] Lowercase: {desc_lower[:100]}")
+
     # 카테고리 분류
     category = "other"
-    if any(word in desc_lower for word in ["전기", "전등", "조명", "콘센트", "스위치", "누전", "정전"]):
+    if any(word in desc_lower for word in ["전기", "전등", "조명", "콘센트", "스위치", "누전", "정전", "전선"]):
         category = "electrical"
-    elif any(word in desc_lower for word in ["수도", "배관", "물", "수도꼭지", "변기", "싱크대", "하수", "누수"]):
+        print(f"[KEYWORD] Matched electrical")
+    elif any(word in desc_lower for word in ["수도", "배관", "물", "수도꼭지", "변기", "싱크대", "하수", "누수", "화장실", "세면대"]):
         category = "plumbing"
+        print(f"[KEYWORD] Matched plumbing")
     elif any(word in desc_lower for word in ["냉방", "난방", "에어컨", "보일러", "환기", "온도"]):
         category = "hvac"
+        print(f"[KEYWORD] Matched hvac")
     elif any(word in desc_lower for word in ["벽", "바닥", "천장", "문", "창문", "계단", "균열", "파손"]):
         category = "structural"
+        print(f"[KEYWORD] Matched structural")
 
     # 우선순위 판단
     priority = "medium"
-    if any(word in desc_lower for word in ["긴급", "위험", "사고", "고장", "멈춤", "안됨", "불가능"]):
+    if any(word in desc_lower for word in ["긴급", "위험", "사고", "고장", "멈춤", "안됨", "불가능", "즉시"]):
         priority = "high"
-    elif any(word in desc_lower for word in ["샘", "새", "누수", "넘침", "뜨거움"]):
+        print(f"[KEYWORD] High priority (urgent words)")
+    elif any(word in desc_lower for word in ["샘", "새", "누수", "넘침", "뜨거움", "계속"]):
         priority = "high"
+        print(f"[KEYWORD] High priority (leak/continuous)")
     elif any(word in desc_lower for word in ["나중", "여유", "천천히"]):
         priority = "low"
+        print(f"[KEYWORD] Low priority")
 
+    print(f"[KEYWORD] Result: category={category}, priority={priority}")
     return {"category": category, "priority": priority}
 
 # AI 카테고리화 함수 (동기 - 빠른 응답용)
