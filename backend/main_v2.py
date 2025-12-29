@@ -15,21 +15,6 @@ from tasks import categorize_maintenance_request
 # .env 파일 로드
 load_dotenv()
 
-app = FastAPI(
-    title="Building Maintenance API - Enhanced",
-    description="AI-powered building maintenance management with async tasks, file upload, and real-time notifications",
-    version="2.0.0"
-)
-
-# CORS 설정
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000", "https://*", "*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 # OpenAI 클라이언트 초기화
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -239,6 +224,8 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Building Maintenance API - Enhanced",
+    description="AI-powered building maintenance management with async tasks, file upload, and real-time notifications",
+    version="2.0.0",
     lifespan=lifespan
 )
 
