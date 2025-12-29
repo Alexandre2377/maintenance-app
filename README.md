@@ -20,7 +20,7 @@
 ### 🌐 라이브 데모
 
 - **Frontend**: [https://maintenance-app-azure.vercel.app](https://maintenance-app-azure.vercel.app)
-- **API 문서**: AWS 배포 후 업데이트 예정 (로컬: `http://localhost:8000/docs`)
+- **API 문서**: [https://maintenance-app-production-9c47.up.railway.app/docs](https://maintenance-app-production-9c47.up.railway.app/docs)
 - **GitHub**: [https://github.com/doublesilver/maintenance-app](https://github.com/doublesilver/maintenance-app)
 
 ---
@@ -45,9 +45,9 @@
 
 ### Infrastructure
 - **Frontend Hosting**: Vercel
-- **Backend**: 로컬 개발 환경 (AWS EC2 배포 준비 완료)
-- **Cache**: Redis (WSL2)
-- **Database**: SQLite (dev) / PostgreSQL (prod 준비 완료)
+- **Backend Hosting**: Railway
+- **Cache**: Redis (Railway)
+- **Database**: SQLite (dev/prod)
 - **Monitoring**: Flower (Celery task monitoring)
 
 ### DevOps
