@@ -493,6 +493,56 @@ Groq Llama 3.3: 93/100 정확 (93%)
 
 ---
 
+### ADR-005: JWT 기반 인증 시스템 구현
+
+**날짜**: 2025-01-17
+
+**상황**:
+- 초기 버전에는 인증 시스템 없음 (누구나 요청 생성/조회 가능)
+- 포트폴리오 완성도를 위해 인증 기능 필요
+- 관리자/사용자 역할 분리 필요
+
+**결정**: JWT (JSON Web Token) + bcrypt 해싱
+
+**기술 스택**:
+- `python-jose[cryptography]==3.3.0`: JWT 토큰 생성/검증
+- `passlib==1.7.4` + `bcrypt==4.0.1`: 비밀번호 해싱
+
+**구현 내용**:
+```python
+# Backend (FastAPI)
+POST /api/auth/register  # 회원가입 (bcrypt 해싱)
+POST /api/auth/login     # 로그인 (JWT 토큰 발급)
+GET /api/auth/me         # 현재 사용자 정보
+
+# Frontend (Next.js)
+/login                   # 로그인 페이지
+/register                # 회원가입 페이지
+localStorage             # 토큰 저장
+AuthButtons              # 네비게이션 인증 UI
+```
+
+**결과**:
+- ✅ 비밀번호 bcrypt 해싱 (SHA-256보다 안전)
+- ✅ JWT 토큰 30분 유효 기간
+- ✅ localStorage 기반 토큰 관리
+- ✅ 네비게이션에 로그인 상태 표시
+- ⚠️ bcrypt 버전 호환성 문제 발생 → bcrypt 4.0.1로 고정하여 해결
+- ⚠️ 72바이트 비밀번호 제한 처리 추가
+
+**보안 고려사항**:
+- bcrypt 해싱 (비밀번호 평문 저장 금지)
+- JWT 토큰 만료 시간 설정 (30분)
+- CORS 설정으로 허용된 도메인만 접근 가능
+
+**향후 개선**:
+- [ ] Refresh Token 도입 (자동 재로그인)
+- [ ] OAuth 2.0 (Google, GitHub 로그인)
+- [ ] 비밀번호 재설정 기능
+- [ ] 이메일 인증
+
+---
+
 ## 5. 성능 측정 및 결과
 
 ### 📊 응답 시간 측정

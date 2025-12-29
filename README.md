@@ -111,11 +111,17 @@ ws://YOUR_SERVER/ws
 
 ### 5. 사용자 인증 (JWT)
 ```python
-# 관리자/사용자 역할 분리
-POST /api/auth/register  # 회원가입
-POST /api/auth/token     # 로그인
-GET /api/requests        # 인증된 사용자만 접근
+# JWT 기반 인증 시스템 (passlib + python-jose)
+POST /api/auth/register  # 회원가입 (bcrypt 해싱)
+POST /api/auth/login     # 로그인 (JWT 토큰 발급)
+GET /api/auth/me         # 현재 사용자 정보
 ```
+
+**프론트엔드 인증**:
+- 회원가입/로그인 UI 구현
+- localStorage 기반 토큰 관리
+- 네비게이션 로그인 상태 표시
+- 자동 로그아웃/리디렉션
 
 ---
 
@@ -177,7 +183,7 @@ redis-server
 celery -A celery_app worker --loglevel=info
 
 # 백엔드 실행
-python main_v2.py
+python main.py
 
 # 3. 프론트엔드 설정 (새 터미널)
 cd frontend
@@ -323,10 +329,10 @@ git push origin main
 ```
 maintenance-app/
 ├── backend/
-│   ├── main_v2.py              # 메인 API (v2.0)
+│   ├── main.py                 # 메인 API (v2.1)
 │   ├── celery_app.py           # Celery 설정
 │   ├── tasks.py                # 비동기 작업 정의
-│   ├── auth.py                 # JWT 인증
+│   ├── auth.py                 # JWT 인증 (bcrypt + python-jose)
 │   ├── test_main.py            # 단위 테스트
 │   ├── requirements.txt        # Python 의존성
 │   ├── Dockerfile              # Docker 이미지
@@ -334,10 +340,15 @@ maintenance-app/
 │   └── .env.example            # 환경변수 템플릿
 ├── frontend/
 │   ├── app/
-│   │   ├── layout.tsx          # 레이아웃
+│   │   ├── layout.tsx          # 레이아웃 (네비게이션 포함)
 │   │   ├── page.tsx            # 홈
+│   │   ├── login/page.tsx      # 로그인
+│   │   ├── register/page.tsx   # 회원가입
 │   │   ├── submit/page.tsx     # 요청 제출
-│   │   └── dashboard/page.tsx  # 대시보드
+│   │   ├── dashboard/page.tsx  # 대시보드
+│   │   └── components/
+│   │       ├── AuthButtons.tsx # 인증 버튼
+│   │       └── MobileNav.tsx   # 모바일 네비게이션
 │   ├── package.json
 │   └── Dockerfile
 ├── .github/
