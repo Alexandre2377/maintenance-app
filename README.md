@@ -4,8 +4,8 @@
 >
 > Claude Code를 활용한 빠른 프로토타이핑 → 프로덕션 레벨 풀스택 애플리케이션
 
-[![Backend CI/CD](https://github.com/YOUR_USERNAME/maintenance-app/actions/workflows/backend-deploy.yml/badge.svg)](https://github.com/YOUR_USERNAME/maintenance-app/actions)
-[![Frontend CI/CD](https://github.com/YOUR_USERNAME/maintenance-app/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/YOUR_USERNAME/maintenance-app/actions)
+[![Backend CI/CD](https://github.com/doublesilver/maintenance-app/actions/workflows/backend-deploy.yml/badge.svg)](https://github.com/doublesilver/maintenance-app/actions)
+[![Frontend CI/CD](https://github.com/doublesilver/maintenance-app/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/doublesilver/maintenance-app/actions)
 
 ## 🎯 프로젝트 개요
 
@@ -160,7 +160,7 @@ GET /api/requests        # 인증된 사용자만 접근
 
 ```bash
 # 1. 저장소 클론
-git clone https://github.com/YOUR_USERNAME/maintenance-app.git
+git clone https://github.com/doublesilver/maintenance-app.git
 cd maintenance-app
 
 # 2. 백엔드 설정
@@ -361,10 +361,10 @@ MIT License
 
 ## 📞 연락처
 
-- **GitHub**: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
-- **Email**: your.email@example.com
-- **LinkedIn**: [Your Name](https://linkedin.com/in/your-name)
-- **Portfolio**: [https://your-portfolio.com](https://your-portfolio.com)
+- **GitHub**: [@doublesilver](https://github.com/doublesilver)
+- **Email**: (포트폴리오 공개 시 추가)
+- **LinkedIn**: (포트폴리오 공개 시 추가)
+- **Portfolio**: (포트폴리오 공개 시 추가)
 
 ---
 
