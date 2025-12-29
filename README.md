@@ -4,9 +4,6 @@
 >
 > Claude Code를 활용한 빠른 프로토타이핑 → 프로덕션 레벨 풀스택 애플리케이션
 
-[![Backend CI/CD](https://github.com/doublesilver/maintenance-app/actions/workflows/backend-deploy.yml/badge.svg)](https://github.com/doublesilver/maintenance-app/actions)
-[![Frontend CI/CD](https://github.com/doublesilver/maintenance-app/actions/workflows/frontend-deploy.yml/badge.svg)](https://github.com/doublesilver/maintenance-app/actions)
-
 ## 🎯 프로젝트 개요
 
 건물 관리자가 유지보수 요청을 효율적으로 관리할 수 있는 **AI 기반 자동화 시스템**입니다.
