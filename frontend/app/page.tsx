@@ -62,12 +62,12 @@ export default function Home() {
             </div>
             <h3 className="text-xl font-bold text-slate-900 mb-3">AI 자동 분류</h3>
             <p className="text-slate-600 leading-relaxed mb-4">
-              OpenAI를 활용해 요청을 자동으로 전기, 배관, HVAC, 구조, 기타로 분류하고 우선순위를 평가합니다
+              Groq AI를 활용해 요청을 자동으로 전기, 배관, 냉난방, 구조, 기타로 분류하고 우선순위를 평가합니다
             </p>
             <div className="flex flex-wrap gap-2">
               <span className="px-3 py-1 bg-blue-50 text-blue-700 rounded-lg text-sm">전기</span>
               <span className="px-3 py-1 bg-cyan-50 text-cyan-700 rounded-lg text-sm">배관</span>
-              <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-lg text-sm">HVAC</span>
+              <span className="px-3 py-1 bg-orange-50 text-orange-700 rounded-lg text-sm">냉난방</span>
             </div>
           </div>
 

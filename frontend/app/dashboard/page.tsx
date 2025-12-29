@@ -108,8 +108,30 @@ export default function Dashboard() {
       pending: '대기중',
       in_progress: '진행중',
       completed: '완료',
+      processing: '처리중',
     }
     return texts[status] || status
+  }
+
+  const getCategoryText = (category: string) => {
+    const texts: { [key: string]: string } = {
+      electrical: '전기',
+      plumbing: '배관',
+      hvac: '냉난방',
+      structural: '구조',
+      other: '기타',
+    }
+    return texts[category] || category
+  }
+
+  const getPriorityText = (priority: string) => {
+    const texts: { [key: string]: string } = {
+      urgent: '긴급',
+      high: '높음',
+      medium: '보통',
+      low: '낮음',
+    }
+    return texts[priority] || priority
   }
 
   const formatDate = (dateString: string) => {
@@ -248,7 +270,7 @@ export default function Dashboard() {
                           request.category
                         )}`}
                       >
-                        {request.category}
+                        {getCategoryText(request.category)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -257,7 +279,7 @@ export default function Dashboard() {
                           request.priority
                         )}`}
                       >
-                        {request.priority}
+                        {getPriorityText(request.priority)}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -331,7 +353,7 @@ export default function Dashboard() {
                       selectedRequest.category
                     )}`}
                   >
-                    {selectedRequest.category}
+                    {getCategoryText(selectedRequest.category)}
                   </span>
                 </div>
                 <div>
@@ -341,7 +363,7 @@ export default function Dashboard() {
                       selectedRequest.priority
                     )}`}
                   >
-                    {selectedRequest.priority}
+                    {getPriorityText(selectedRequest.priority)}
                   </span>
                 </div>
               </div>
