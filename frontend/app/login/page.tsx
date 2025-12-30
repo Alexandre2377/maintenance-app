@@ -34,8 +34,25 @@ export default function Login() {
       localStorage.setItem('access_token', response.data.access_token)
       localStorage.setItem('user_email', email)
 
-      // 대시보드로 이동
-      router.push('/dashboard')
+      // 사용자 정보 가져와서 역할에 따라 리다이렉트
+      try {
+        const userResponse = await axios.get(`${API_URL}/api/auth/me`, {
+          headers: { Authorization: `Bearer ${response.data.access_token}` }
+        })
+
+        const userRole = userResponse.data.role
+
+        // 역할에 따라 적절한 페이지로 이동
+        if (userRole === 'admin' || userRole === 'super_admin') {
+          router.push('/admin/dashboard')
+        } else {
+          router.push('/user/dashboard')
+        }
+      } catch (err) {
+        console.error('사용자 정보 조회 실패:', err)
+        // 실패시 기본적으로 admin dashboard로
+        router.push('/admin/dashboard')
+      }
     } catch (err: any) {
       console.error('로그인 실패:', err)
       if (err.response?.status === 401) {
